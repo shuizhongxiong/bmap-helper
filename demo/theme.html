@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>设置主题</title>
+    <link rel="stylesheet" href="../build/bmap-helper.css">
+    <style>
+        body,html {width: 100%;height: 100%;overflow: hidden;margin:0;font-family:"微软雅黑";}
+        .bmap-container {
+            margin: 20px;
+            width: 600px;
+            height: 600px;
+        }
+    </style>
+</head>
+<body>
+    <div class="bmap-container" id="bmapContainer"></div>
+    <div class="bmap-info" id="bmapInfo"></div>
+
+    <!-- 请替换成自己的 ak 秘钥 -->
+    <script src="http://api.map.baidu.com/api?v=3.0&ak=LrV4CSNZ6t84WnCzUftiuKZ5thfWzWFz"></script>
+    <script src="../build/bmap-helper.js"></script>
+    <script src="../build/theme.js"></script>
+    <script>
+        // 初始化地图
+        var bmap = new BMap.Map('bmapContainer');
+        var point = new BMap.Point(116.404, 39.915);
+        bmap.centerAndZoom(point, 15);
+
+        // 初始化插件
+        var helper = bmapHelper.initHelper(bmap);
+
+        // 更改皮肤
+        helper.setTheme(BmapThemes['theme-2']);
+
+        // 创建标注
+        var marker = new BMap.Marker(point);
+
+        // 配置提示框
+        helper.setMapInfo({
+            originEl: marker,
+			infoEl: document.getElementById('bmapInfo'),
+			infoHTML: '<div class="info-content">' +
+                '<p>地址：北京天安门</p>' +
+                '<p>经纬度：116.404, 39.915</p>' +
+            '</div>',
+			isInfoCenter: true
+        });
+        // 放大
+		helper.setZoomOutControl();
+        // 缩小
+        helper.setZoomInControl();
+        // 全屏
+        helper.setFullControl();
+
+        // 自定义覆盖物
+        helper.setCustomCover({
+            point: new BMap.Point(116.404, 39.915),
+            offset: {x: 300, y: 300},
+            html: '我是自定义覆盖物！',
+            bindEventFun: function(data) {
+                data.div.addEventListener('mouseover', function() {
+                    this.textContent = '你碰到我了，快走开！';
+                }, false);
+                data.div.addEventListener('mouseout', function() {
+                    this.textContent = data.html;
+                }, false);
+            }
+        });
+
+        // 自定义控件-重置
+        helper.setCustomControl({
+            anchor: BMAP_ANCHOR_BOTTOM_RIGHT,
+            offset: {x: 20, y: 20},
+            html: '<div class="bmap-ctrl">重置</div>',
+            bindEventFun: function(data) {
+                data.div.addEventListener('click', function() {
+                    bmap.centerAndZoom(point, 15);
+                }, false);
+            }
+        });
+
+        // 将标注添加到地图中
+        bmap.addOverlay(marker); 
+    </script>
+</body>
+</html>
