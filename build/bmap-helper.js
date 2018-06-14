@@ -26,7 +26,7 @@
 
 	/**
 	 * 插件初始化方法
-	 * @param {baidu map object} map 
+	 * @param {BMap map object} map 
 	 */
 	window.bmapHelper.initHelper = function (map) {
         if (!map) {
@@ -44,7 +44,7 @@
 
 	/**
 	 * 工厂函数
-	 * @param {baidu map object} map 
+	 * @param {BMap map object} map 
 	 */
     function BmapHelper(map) {
         this.map = map;
@@ -52,7 +52,7 @@
 
     /**
      * 设置主题
-     * @param {string} key !主题对象
+     * @param {string} key 主题对象
      */
     BmapHelper.prototype.setTheme = function(styleJson) {
 		if (!styleJson || !isArray(styleJson)) {
@@ -65,7 +65,7 @@
 
     /**
 	 * 弹框控件
-	 * @param {HTMLElememt} data.originEl 绑定弹框节点
+	 * @param {BMap Marker} data.bmapMarker 绑定弹框的 marker
 	 * @param {HTMLElememt} data.infoEl 弹框节点，方便定制
 	 * @param {{x: number, y: number}} data.infoOffset 弹框偏移，默认 {x:0, y:0}
 	 * @param {string} data.infoHTML 弹框内容
@@ -77,22 +77,22 @@
 	 */
 	BmapHelper.prototype.setMapInfo = function(data) {
 		data = data ? data : {};
-		if (!data.originEl || !data.infoEl) {
+		if (!data.bmapMarker || !data.infoEl) {
 			return false;
 		}
         var that = this;
-		var isHoverOriginEl = false;
+		var isHoverbmapMarker = false;
 		var isHoverInfoEl = false;
 
-		data.originEl.addEventListener('mouseover', (e) => {
+		data.bmapMarker.addEventListener('mouseover', (e) => {
 			// 地图对象自定义属性，冻结
 			if (that.map && that.map.frozen) {
 				return false;
 			}
-			isHoverOriginEl = true;
+			isHoverbmapMarker = true;
 			data.infoEl.style.display = 'none';
 			// 获取弹框节点大小
-			var originDom = data.originEl.V;
+			var originDom = data.bmapMarker.V;
 			var originDomWidth = originDom.style.width.replace('px', '') || 0;
 			var originDomHeight = originDom.style.height.replace('px', '') || 0;
 			// 地图偏移量
@@ -124,8 +124,8 @@
 				data.showCallback(data.showCallbackData);
 			}
 		}, false);
-		data.originEl.addEventListener('mouseout', (e) => {
-			isHoverOriginEl = false;
+		data.bmapMarker.addEventListener('mouseout', (e) => {
+			isHoverbmapMarker = false;
 			hideInfo();
 		}, false);
 
@@ -143,7 +143,7 @@
 				return false;
 			}
 			setTimeout(() => {
-				if (!isHoverOriginEl && !isHoverInfoEl) {
+				if (!isHoverbmapMarker && !isHoverInfoEl) {
 					data.infoEl.style.display = 'none';
 					if (data.hideCallback && typeof data.hideCallback === 'function') {
 						data.hideCallback(data.hideCallbackData);
@@ -362,7 +362,7 @@
 
 	/**
 	 * 地图自定义覆盖物
-	 * @param {baidu Point Object} point 经纬度，例：new BMap.Point(116.404, 39.915)
+	 * @param {BMap Point Object} point 经纬度，例：new BMap.Point(116.404, 39.915)
 	 * @param {{x: number, y: number}} offset 覆盖物偏移，默认左上角 {x:0, y:0}
 	 * @param {string} html 显示内容
 	 * @param {function} bindEventFun 自定义事件，返回 ComplexCustomOverlay 实例对象
@@ -410,7 +410,7 @@
 
 	/**
 	 * 地图自定义控件
-	 * @param anchor 停靠位置 默认：右上角(BMAP_ANCHOR_TOP_RIGHT)
+	 * @param {ControlAnchor} anchor 停靠位置 默认：右上角(BMAP_ANCHOR_TOP_RIGHT)
 	 * @param {{x: number, y: number}} offset 覆盖物偏移，默认左上角 {x:20, y:20}
 	 * @param {string} html 默认显示内容
 	 * @param {function} bindEventFun 自定义事件，返回 CustomControl 实例对象
