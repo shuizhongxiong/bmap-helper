@@ -199,3 +199,9 @@ helper.setCustomControl({
 
 * [ControlAnchor](http://lbsyun.baidu.com/cms/jsapi/reference/jsapi_reference_3_0.html#a2b1)
 * [BMap Marker](http://lbsyun.baidu.com/cms/jsapi/reference/jsapi_reference_3_0.html#a3b2)
+
+### License
+
+MIT License
+
+Copyright (c) 2018 水中熊
