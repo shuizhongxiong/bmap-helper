@@ -1,6 +1,6 @@
 # bmap-helper
 
-百度地图帮助插件，[所有功能预览](http://htmlpreview.github.io/?https://github.com/shuizhongxiong/bmap-helper/blob/master/demo/demo.html)。
+百度地图开源库，[所有功能预览](http://htmlpreview.github.io/?https://github.com/shuizhongxiong/bmap-helper/blob/master/demo/demo.html)。
 
 主要功能有：
 

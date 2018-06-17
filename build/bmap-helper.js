@@ -1,5 +1,5 @@
 /**
- * @name 百度地图帮助插件
+ * @name 百度地图开源库
  * @author 水中熊
  * @see https://github.com/shuizhongxiong/bmap-helper
  * @description 百度地图扩展插件，使用方法如下
