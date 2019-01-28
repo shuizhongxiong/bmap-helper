@@ -1,42 +1,44 @@
-/**
- * @name 百度地图开源库
- * @author 水中熊
- * @see https://github.com/shuizhongxiong/bmap-helper
- * @description 百度地图扩展插件，使用方法如下
- * 1、首先需要实例化百度地图应用：
- * @example var map = new BMap.Map('mapContainer');
-        var point = new BMap.Point(116.404, 39.915);
-        map.centerAndZoom(point, 15);
- * 2、然后再将地图实例对象传入插件初始化方法：
- * @example var helper = bmapHelper.initHelper(map1);
- * 3、最后可以通过实例对象 helper 调用其上的原型方法。
- * @property {setTheme} 设置主题 
- * @property {setMapInfo} 弹框控件
- * @property {setZoomInControl} 地图放大控件
- * @property {setZoomOutControl} 地图缩小控件
- * @property {setFullControl} 地图全屏控件
- * @property {setCustomCover} 地图自定义覆盖物
- * @property {setCustomControl} 地图自定义控件
- */
+/* 
+  @name 百度地图开源库
+  @author 水中熊
+  @see https: //github.com/shuizhongxiong/bmap-helper
+  @description 百度地图扩展插件， 使用方法如下
+  1、 首先需要实例化百度地图应用：
+  @example
+  var map = new BMap.Map('mapContainer');
+  var point = new BMap.Point(116.404, 39.915);
+  map.centerAndZoom(point, 15);
+  2、 然后再将地图实例对象传入插件初始化方法：
+  @example
+  var helper = BMapHelper.initHelper(map1);
+  3、 最后可以通过实例对象 helper 调用其上的原型方法。
+  setTheme 设置主题
+  setMapInfo 弹框控件
+  setZoomInControl 地图放大控件
+  setZoomOutControl 地图缩小控件
+  setFullControl 地图全屏控件
+  setCustomCover 地图自定义覆盖物
+  setCustomControl 地图自定义控件
+*/
 ;(function() {
     'use strict';
 
 	// 暴露主方法
-	window.bmapHelper = {};
+	window.BMapHelper = {};
 
 	/**
 	 * 插件初始化方法
 	 * @param {BMap map object} map 
 	 */
-	window.bmapHelper.initHelper = function (map) {
+	window.BMapHelper.initHelper = function (map) {
         if (!map) {
             throw new Error('请初始化百度地图应用');
         }
-        return new BmapHelper(map);
+        return new BMapHelper(map);
 	};
 
 	// 私有变量
-	var imgPath = '../build/images/';
+	var imgPath = './images/';
 	// 私有方法
 	function isArray(value) {
 		return value && Object.prototype.toString.call(value) === '[object Array]';
@@ -46,7 +48,7 @@
 	 * 工厂函数
 	 * @param {BMap map object} map 
 	 */
-    function BmapHelper(map) {
+    function BMapHelper(map) {
         this.map = map;
     }
 
@@ -54,7 +56,7 @@
      * 设置主题
      * @param {string} key 主题对象
      */
-    BmapHelper.prototype.setTheme = function(styleJson) {
+    BMapHelper.prototype.setTheme = function(styleJson) {
 		if (!styleJson || !isArray(styleJson)) {
 			return false;
 		}
@@ -75,7 +77,7 @@
 	 * @param {function} data.hideCallback 隐藏弹框后回调函数
 	 * @param {any} data.hideCallbackData 隐藏弹框后回调函数所返回的数据
 	 */
-	BmapHelper.prototype.setMapInfo = function(data) {
+	BMapHelper.prototype.setMapInfo = function(data) {
 		data = data ? data : {};
 		if (!data.bmapMarker || !data.infoEl) {
 			return false;
@@ -97,7 +99,7 @@
 			var originDomHeight = originDom.style.height.replace('px', '') || 0;
 			// 地图偏移量
 			var el = e.target || e.srcElement;
-			var mapEl = e.target.map.Va;
+			var mapEl = e.target.map.Ua;
 			var mapLeft = mapEl.offsetLeft;
 			var mapTop = mapEl.offsetTop;
 			// 自定义偏移量
@@ -129,10 +131,10 @@
 			hideInfo();
 		}, false);
 
-		data.infoEl.addEventListener('mouseover', () => {
+		data.infoEl.addEventListener('mouseenter', () => {
 			isHoverInfoEl = true;
 		}, false);
-		data.infoEl.addEventListener('mouseout', () => {
+		data.infoEl.addEventListener('mouseleave', () => {
 			isHoverInfoEl = false;
 			hideInfo();
 		}, false);
@@ -168,7 +170,7 @@
 	 * @param {string} data.imgPath 放大图片路径
 	 * @param {string} data.divHtml 控件内容
 	 */
-	BmapHelper.prototype.setZoomInControl = function(data) {
+	BMapHelper.prototype.setZoomInControl = function(data) {
 		data = data ? data : {};
 		var that = this;
 		var map = that.map;
@@ -215,7 +217,7 @@
 	 * @param {string} data.imgPath 缩小图片路径
 	 * @param {string} data.divHtml 控件内容
 	 */
-	BmapHelper.prototype.setZoomOutControl = function(data) {
+	BMapHelper.prototype.setZoomOutControl = function(data) {
 		data = data ? data : {};
 		var that = this;
 		var map = that.map;
@@ -264,7 +266,7 @@
 	 * @param {boolean} data.isAutoCenter 是否自动移动中心点
 	 * @param {function} callback 回调函数，返回全屏状态
 	 */
-	BmapHelper.prototype.setFullControl = function(data) {
+	BMapHelper.prototype.setFullControl = function(data) {
 		data = data ? data : {isAutoCenter: true};
 		var that = this;
 		var map = that.map;
@@ -367,7 +369,7 @@
 	 * @param {string} html 显示内容
 	 * @param {function} bindEventFun 自定义事件，返回 ComplexCustomOverlay 实例对象
 	 */
-	BmapHelper.prototype.setCustomCover = function(data) {
+	BMapHelper.prototype.setCustomCover = function(data) {
 		data = data ? data : {};
 		var that = this;
 
@@ -415,7 +417,7 @@
 	 * @param {string} html 默认显示内容
 	 * @param {function} bindEventFun 自定义事件，返回 CustomControl 实例对象
 	 */
-	BmapHelper.prototype.setCustomControl = function(data) {
+	BMapHelper.prototype.setCustomControl = function(data) {
 		data = data ? data : {};
 		var that = this;
 

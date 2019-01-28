@@ -22,18 +22,20 @@
     <!-- 请替换成自己的 ak 秘钥 -->
     <script src="http://api.map.baidu.com/api?v=3.0&ak=LrV4CSNZ6t84WnCzUftiuKZ5thfWzWFz"></script>
     <script src="../build/bmap-helper.js"></script>
-    <script src="../build/theme.js"></script>
+    <script src="../build/bmap-theme.js"></script>
     <script>
         // 初始化地图
-        var bmap = new BMap.Map('bmapContainer');
+        var bmap = new BMap.Map('bmapContainer', {
+            enableMapClick: false
+        });
         var point = new BMap.Point(116.404, 39.915);
         bmap.centerAndZoom(point, 15);
 
         // 初始化插件
-        var helper = bmapHelper.initHelper(bmap);
+        var helper = BMapHelper.initHelper(bmap);
 
         // 更改皮肤
-        helper.setTheme(BmapThemes['theme-2']);
+        helper.setTheme(BMapThemes['theme-2']);
 
         // 创建标注
         var marker = new BMap.Marker(point);
