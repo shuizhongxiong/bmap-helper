@@ -20,7 +20,7 @@
     <div class="bmap-info" id="bmapInfo"></div>
 
     <!-- 请替换成自己的 ak 秘钥 -->
-    <script src="http://api.map.baidu.com/api?v=3.0&ak=LrV4CSNZ6t84WnCzUftiuKZ5thfWzWFz"></script>
+    <script src="http://api.map.baidu.com/api?v=3.0&ak=PsTi2jLoR74dFhGWQyum0Gy9QoyZLYtL"></script>
     <script src="../build/bmap-helper.js"></script>
     <script src="../build/bmap-theme.js"></script>
     <script>
@@ -32,10 +32,13 @@
         bmap.centerAndZoom(point, 15);
 
         // 初始化插件
-        var helper = BMapHelper.initHelper(bmap);
+        var helper = BMapHelper.initHelper({
+            map: bmap, 
+            imgPath: '../build/images/'
+        });
 
         // 更改皮肤
-        helper.setTheme(BMapThemes['theme-2']);
+        helper.setTheme(BMapThemes['theme-1']);
 
         // 创建标注
         var marker = new BMap.Marker(point);

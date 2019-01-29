@@ -10,7 +10,7 @@
   map.centerAndZoom(point, 15);
   2、 然后再将地图实例对象传入插件初始化方法：
   @example
-  var helper = BMapHelper.initHelper(map1);
+  var helper = BMapHelper.initHelper(data);
   3、 最后可以通过实例对象 helper 调用其上的原型方法。
   setTheme 设置主题
   setMapInfo 弹框控件
@@ -30,26 +30,21 @@
 	 * 插件初始化方法
 	 * @param {BMap map object} map 
 	 */
-	window.BMapHelper.initHelper = function (map) {
-        if (!map) {
+	window.BMapHelper.initHelper = function (data) {
+        if (!data.map) {
             throw new Error('请初始化百度地图应用');
         }
-        return new BMapHelper(map);
+        return new BMapHelper(data.map, data.imgPath);
 	};
-
-	// 私有变量
-	var imgPath = './images/';
-	// 私有方法
-	function isArray(value) {
-		return value && Object.prototype.toString.call(value) === '[object Array]';
-	}
 
 	/**
 	 * 工厂函数
-	 * @param {BMap map object} map 
+	 * @param {BMap} map
+	 * @param {string} imgPath
 	 */
-    function BMapHelper(map) {
+    function BMapHelper(map, imgPath) {
         this.map = map;
+        this.imgPath = imgPath || '';
     }
 
     /**
@@ -57,7 +52,7 @@
      * @param {string} key 主题对象
      */
     BMapHelper.prototype.setTheme = function(styleJson) {
-		if (!styleJson || !isArray(styleJson)) {
+		if (!styleJson || !Array.isArray(styleJson)) {
 			return false;
 		}
         this.map.setMapStyle({
@@ -193,7 +188,7 @@
 			} else {
 				divHtml = 
 					'<div class="bmap-ctrl bmap-zoomIn">' +
-						'<img src=' + (data.imgPath || imgPath + 'zoomin.png') + ' title="放大"/>' +
+						'<img src=' + (data.imgPath || that.imgPath + 'zoomin.png') + ' title="放大"/>' +
 					'</div>';
 			}
 			zoomInDiv.innerHTML = divHtml;
@@ -240,7 +235,7 @@
 			} else {
 				divHtml = 
 					'<div class="bmap-ctrl bmap-zoomOut">' +
-						'<img src=' + (data.imgPath || imgPath + 'zoomout.png') + ' title="缩小"/>' +
+						'<img src=' + (data.imgPath || that.imgPath + 'zoomout.png') + ' title="缩小"/>' +
 					'</div>';
 			}
 			zoomOutDiv.innerHTML = divHtml;
@@ -283,23 +278,22 @@
 
 		FullControl.prototype = new BMap.Control();
 		FullControl.prototype.initialize = function(map) {
-			var that = this;
 			var mapEl = map.getContainer();
 			var fullDiv = document.createElement('div');
 			var fullDivHtml = '';
 			var unfullDivHtml = '';
 
-			if (data.divHtml && isArray(data.divHtml) && data.divHtml.length === 2) {
+			if (data.divHtml && Array.isArray(data.divHtml) && data.divHtml.length === 2) {
 				fullDivHtml = data.divHtml[0].toString();
 				unfullDivHtml = data.divHtml[1].toString();
 			} else {
 				fullDivHtml = 
 					'<div class="bmap-ctrl bmap-fullScreen">' +
-						'<img src=' + (data.imgPath || imgPath + 'full.png') + ' title="全屏"/>' +
+						'<img src=' + (data.imgPath || that.imgPath + 'full.png') + ' title="全屏"/>' +
 					'</div>';
 				unfullDivHtml = 
 					'<div class="bmap-ctrl bmap-fullScreen">' +
-						'<img src=' + (data.imgPath || imgPath + 'unfull.png') + ' title="恢复"/>' +
+						'<img src=' + (data.imgPath || that.imgPath + 'unfull.png') + ' title="恢复"/>' +
 					'</div>';
 			}
 			fullDiv.innerHTML = fullDivHtml;
