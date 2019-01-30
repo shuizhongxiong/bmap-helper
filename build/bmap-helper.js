@@ -93,7 +93,6 @@
 			var originDomWidth = originDom.style.width.replace('px', '') || 0;
 			var originDomHeight = originDom.style.height.replace('px', '') || 0;
 			// 地图偏移量
-			var el = e.target || e.srcElement;
 			var mapEl = e.target.map.Ua;
 			var mapLeft = mapEl.offsetLeft;
 			var mapTop = mapEl.offsetTop;
@@ -157,12 +156,19 @@
 	 * BMAP_ANCHOR_BOTTOM_LEFT 控件将定位到地图的左下角
 	 * BMAP_ANCHOR_BOTTOM_RIGHT 控件将定位到地图的右下角
 	 */
+	
+	/**
+	 * 地图缩放控件 - 直接写死
+	 */
+	BMapHelper.prototype.setZoomControl = function() {
+		this.setZoomInControl();
+		this.setZoomOutControl();
+	}
 
 	/**
 	 * 地图放大控件
-	 * @param {ControlAnchor} data.anchor 停靠位置，默认右上角（BMAP_ANCHOR_TOP_RIGHT）
+	 * @param {ControlAnchor} data.anchor 停靠位置，默认右下角（BMAP_ANCHOR_TOP_RIGHT）
 	 * @param {{x: number, y: number}} data.offset 偏移量，默认{x: 20, y: 20}
-	 * @param {string} data.imgPath 放大图片路径
 	 * @param {string} data.divHtml 控件内容
 	 */
 	BMapHelper.prototype.setZoomInControl = function(data) {
@@ -171,11 +177,11 @@
 		var map = that.map;
 		var ZoomInControl = function() {
 			// 默认停靠位置和偏移量
-			this.defaultAnchor = data.anchor || BMAP_ANCHOR_TOP_RIGHT;
+			this.defaultAnchor = data.anchor || BMAP_ANCHOR_BOTTOM_RIGHT;
 			if (data.offset && data.offset.x && data.offset.y) {
 				this.defaultOffset = new BMap.Size(+data.offset.x, +data.offset.y);
 			} else {
-				this.defaultOffset = new BMap.Size(20, 20);
+				this.defaultOffset = new BMap.Size(20, 46);
 			}
 		};
 
@@ -186,13 +192,12 @@
 			if (data.divHtml && data.divHtml.toString().length > 0) {
 				divHtml = data.divHtml.toString();
 			} else {
-				divHtml = 
-					'<div class="bmap-ctrl bmap-zoomIn">' +
-						'<img src=' + (data.imgPath || that.imgPath + 'zoomin.png') + ' title="放大"/>' +
-					'</div>';
+				divHtml = `
+					<div class="bmap-ctrl bmap-zoomIn" title="放大一级">
+						<img src="${data.imgPath || that.imgPath}zoomin.png" title="放大"/>
+					</div>`;
 			}
 			zoomInDiv.innerHTML = divHtml;
-			zoomInDiv.style.cursor = 'pointer';
 
 			zoomInDiv.onclick = function (e) {
 				map.zoomIn();
@@ -207,7 +212,7 @@
 
 	/**
 	 * 地图缩小控件
-	 * @param {ControlAnchor} data.anchor 停靠位置，默认右上角（BMAP_ANCHOR_TOP_RIGHT）
+	 * @param {ControlAnchor} data.anchor 停靠位置，默认右下角（BMAP_ANCHOR_TOP_RIGHT）
 	 * @param {{x: number, y: number}} data.offset 偏移量，默认{x: 20, y: 51}
 	 * @param {string} data.imgPath 缩小图片路径
 	 * @param {string} data.divHtml 控件内容
@@ -218,11 +223,11 @@
 		var map = that.map;
 		var ZoomOutControl = function() {
 			// 默认停靠位置和偏移量
-			this.defaultAnchor = data.anchor || BMAP_ANCHOR_TOP_RIGHT;
+			this.defaultAnchor = data.anchor || BMAP_ANCHOR_BOTTOM_RIGHT;
 			if (data.offset && data.offset.x && data.offset.y) {
 				this.defaultOffset = new BMap.Size(+data.offset.x, +data.offset.y);
 			} else {
-				this.defaultOffset = new BMap.Size(20, 51);
+				this.defaultOffset = new BMap.Size(20, 20);
 			}
 		};
 
@@ -233,13 +238,12 @@
 			if (data.divHtml && data.divHtml.toString().length > 0) {
 				divHtml = data.divHtml.toString();
 			} else {
-				divHtml = 
-					'<div class="bmap-ctrl bmap-zoomOut">' +
-						'<img src=' + (data.imgPath || that.imgPath + 'zoomout.png') + ' title="缩小"/>' +
-					'</div>';
+				divHtml = `
+					<div class="bmap-ctrl bmap-zoomOut" title="缩小一级">
+						<img src="${data.imgPath || that.imgPath}zoomout.png" title="缩小"/>
+					</div>`;
 			}
 			zoomOutDiv.innerHTML = divHtml;
-			zoomOutDiv.style.cursor = 'pointer';
 
 			zoomOutDiv.onclick = function (e) {
 				map.zoomOut();
@@ -268,11 +272,11 @@
 		map.enableAutoResize();
 		var FullControl = function () {
 			// 默认停靠位置和偏移量
-			this.defaultAnchor = data.anchor || BMAP_ANCHOR_TOP_RIGHT;
+			this.defaultAnchor = data.anchor || BMAP_ANCHOR_BOTTOM_RIGHT;
 			if (data.offset && data.offset.x && data.offset.y) {
 				this.defaultOffset = new BMap.Size(+data.offset.x, +data.offset.y);
 			} else {
-				this.defaultOffset = new BMap.Size(20, 89);
+				this.defaultOffset = new BMap.Size(20, 81);
 			}
 		};
 
@@ -288,16 +292,15 @@
 				unfullDivHtml = data.divHtml[1].toString();
 			} else {
 				fullDivHtml = 
-					'<div class="bmap-ctrl bmap-fullScreen">' +
+					'<div class="bmap-ctrl bmap-full">' +
 						'<img src=' + (data.imgPath || that.imgPath + 'full.png') + ' title="全屏"/>' +
 					'</div>';
 				unfullDivHtml = 
-					'<div class="bmap-ctrl bmap-fullScreen">' +
+					'<div class="bmap-ctrl bmap-full">' +
 						'<img src=' + (data.imgPath || that.imgPath + 'unfull.png') + ' title="恢复"/>' +
 					'</div>';
 			}
 			fullDiv.innerHTML = fullDivHtml;
-			fullDiv.style.cursor = 'pointer';
 			fullDiv.setAttribute('state', '0'); // 默认关闭全屏
 			fullDiv.onclick = function(e) {
 				// 为 map 对象添加一个新属性，记录初始化中心点
@@ -430,7 +433,6 @@
 			this.map = map;
 			this.div = document.createElement('div');
 			this.div.innerHTML = data.html;
-			this.div.style.cursor = 'pointer';
 			if (data.bindEventFun && typeof data.bindEventFun === 'function') {
 				data.bindEventFun(this);
 			}
