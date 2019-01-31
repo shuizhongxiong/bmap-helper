@@ -1,6 +1,5 @@
 # bmap-helper
 
-百度地图开源库
 ![Alt text](./demo.gif "百度地图开源库 demo")
 
 主要功能有：
