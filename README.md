@@ -1,11 +1,10 @@
 # bmap-helper
 
-百度地图开源库，[所有功能预览](http://htmlpreview.github.io/?https://github.com/shuizhongxiong/bmap-helper/blob/master/demo/demo.html)。
-
 主要功能有：
 
 * setTheme 设置主题
 * setMapInfo 弹框控件
+* setZoomControl 地图缩放控件（含放大、缩小）
 * setZoomInControl 地图放大控件
 * setZoomOutControl 地图缩小控件
 * setFullControl 地图全屏控件
@@ -29,10 +28,10 @@
 <link rel="stylesheet" href="../build/bmap-helper.css">
 ```
 
-* 这里提供了两个主题，暗黑（theme-1）、苹果风（theme-2）。可以使用[百度地图个性化模板](http://lbsyun.baidu.com/custom/list.htm)，也可以自己[编辑一个模板](http://lbsyun.baidu.com/custom/)。
+* 这里提供了两个主题，苹果风（theme-1）、暗黑（theme-2）。可以使用[百度地图个性化模板](http://lbsyun.baidu.com/custom/list.htm)，也可以自己[编辑一个模板](http://lbsyun.baidu.com/custom/)。
 
 ```html
-<script src="../build/theme.js"></script>
+<script src="../build/bmap-theme.js"></script>
 ```
 
 ### 实例化
@@ -55,7 +54,10 @@ map.centerAndZoom(point, 15);
 * 然后初始化百度地图插件，并将上面地图实例化对象 map 传入。
 
 ```js
-var helper = bmapHelper.initHelper(map);
+var helper = bmapHelper.initHelper({
+    map: map, 
+    imgPath: '../build/images/'
+});
 ```
 
 * 最后，你就可以通过插件的实例对象 helper 调用其上的原型方法。
@@ -71,7 +73,7 @@ var helper = bmapHelper.initHelper(map);
  * 设置主题
  * @param {string} key 主题对象
  */
-helper.setTheme(BmapThemes['theme-2']);
+helper.setTheme(BMapThemes['theme-1']);
 ```
 
 #### setMapInfo

@@ -10,7 +10,10 @@
   map.centerAndZoom(point, 15);
   2、 然后再将地图实例对象传入插件初始化方法：
   @example
-  var helper = BMapHelper.initHelper(data);
+  var helper = BMapHelper.initHelper({
+    map: map, 
+    imgPath: '../build/images/'
+  });
   3、 最后可以通过实例对象 helper 调用其上的原型方法。
   setTheme 设置主题
   setMapInfo 弹框控件
