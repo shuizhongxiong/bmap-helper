@@ -1,5 +1,9 @@
 # bmap-helper
 
+## 预览
+
+<https://shuizhongxiong.github.io/bmap-helper/demo/demo.html>
+
 ![Alt text](./demo.gif "百度地图开源库 demo")
 
 主要功能有：
